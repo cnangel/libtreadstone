@@ -34,67 +34,60 @@
 
 TEST(JsonToBinary, EmptyString)
 {
-    const char *json = "";
-    char unsigned *binary = NULL;
-    size_t binary_sz = 0;
-
-    int res = treadstone_json_to_binary(json, &binary, &binary_sz);
-    ASSERT_TRUE(binary == NULL);
-    ASSERT_EQ(binary_sz, 0);
-    ASSERT_NE(res, 0);
+	const char *json = "";
+	char unsigned *binary = NULL;
+	size_t binary_sz = 0;
+	int res = treadstone_json_to_binary(json, &binary, &binary_sz);
+	ASSERT_TRUE(binary == NULL);
+	ASSERT_EQ(binary_sz, 0);
+	ASSERT_NE(res, 0);
 }
 
 TEST(JsonToBinary, NullPointer)
 {
-    const char *json = NULL;
-    char unsigned *binary = NULL;
-    size_t binary_sz = 0;
-
-    int res = treadstone_json_to_binary(json, &binary, &binary_sz);
-    ASSERT_TRUE(binary == NULL);
-    ASSERT_EQ(binary_sz, 0);
-    ASSERT_NE(res, 0);
+	const char *json = NULL;
+	char unsigned *binary = NULL;
+	size_t binary_sz = 0;
+	int res = treadstone_json_to_binary(json, &binary, &binary_sz);
+	ASSERT_TRUE(binary == NULL);
+	ASSERT_EQ(binary_sz, 0);
+	ASSERT_NE(res, 0);
 }
 
 TEST(JsonToBinary, RandomString)
 {
-    const char *json = "banana";
-    char unsigned *binary = NULL;
-    size_t binary_sz = 0;
-
-    int res = treadstone_json_to_binary(json, &binary, &binary_sz);
-    ASSERT_TRUE(binary == NULL);
-    ASSERT_EQ(binary_sz, 0);
-    ASSERT_NE(res, 0);
+	const char *json = "banana";
+	char unsigned *binary = NULL;
+	size_t binary_sz = 0;
+	int res = treadstone_json_to_binary(json, &binary, &binary_sz);
+	ASSERT_TRUE(binary == NULL);
+	ASSERT_EQ(binary_sz, 0);
+	ASSERT_NE(res, 0);
 }
 
 TEST(JsonToBinary, EmptyJson)
 {
-    const char *json = "{}";
-    char unsigned *binary = NULL;
-    size_t binary_sz = 0;
-
-    int res = treadstone_json_to_binary(json, &binary, &binary_sz);
-    ASSERT_EQ(res, 0);
-    ASSERT_TRUE(binary != NULL);
-    free(binary);
+	const char *json = "{}";
+	char unsigned *binary = NULL;
+	size_t binary_sz = 0;
+	int res = treadstone_json_to_binary(json, &binary, &binary_sz);
+	ASSERT_EQ(res, 0);
+	ASSERT_TRUE(binary != NULL);
+	free(binary);
 }
 
 TEST(JsonToBinary, EncodeAndDecode)
 {
-    const char *json = "{}";
-    char unsigned *binary = NULL;
-    size_t binary_sz = 0;
-
-    int res = treadstone_json_to_binary(json, &binary, &binary_sz);
-    ASSERT_EQ(res, 0);
-    ASSERT_TRUE(binary != NULL);
-
-    char *json2 = NULL;
-    int res2 = treadstone_binary_to_json(binary, binary_sz, &json2);
-    ASSERT_EQ(res2, 0);
-    ASSERT_EQ(strcmp(json, json2), 0);
-
-    free(binary);
-    free(json2);
+	const char *json = "{}";
+	char unsigned *binary = NULL;
+	size_t binary_sz = 0;
+	int res = treadstone_json_to_binary(json, &binary, &binary_sz);
+	ASSERT_EQ(res, 0);
+	ASSERT_TRUE(binary != NULL);
+	char *json2 = NULL;
+	int res2 = treadstone_binary_to_json(binary, binary_sz, &json2);
+	ASSERT_EQ(res2, 0);
+	ASSERT_EQ(strcmp(json, json2), 0);
+	free(binary);
+	free(json2);
 }

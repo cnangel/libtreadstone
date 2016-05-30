@@ -38,59 +38,59 @@ extern "C"
 {
 #endif /* __cplusplus */
 
-int treadstone_json_to_binary(const char* json,
-                              unsigned char** binary, size_t* binary_sz);
-int treadstone_json_sz_to_binary(const char* json, size_t json_sz,
-                                 unsigned char** binary, size_t* binary_sz);
-int treadstone_binary_to_json(const unsigned char* binary, size_t binary_sz,
-                              char** json);
-int treadstone_binary_validate(const unsigned char* binary, size_t binary_sz);
+int treadstone_json_to_binary(const char *json,
+                              unsigned char **binary, size_t *binary_sz);
+int treadstone_json_sz_to_binary(const char *json, size_t json_sz,
+                                 unsigned char **binary, size_t *binary_sz);
+int treadstone_binary_to_json(const unsigned char *binary, size_t binary_sz,
+                              char **json);
+int treadstone_binary_validate(const unsigned char *binary, size_t binary_sz);
 
-int treadstone_string_to_binary(const char* string, size_t string_sz,
-                                unsigned char** binary, size_t* binary_sz);
+int treadstone_string_to_binary(const char *string, size_t string_sz,
+                                unsigned char **binary, size_t *binary_sz);
 int treadstone_integer_to_binary(int64_t number,
-                                 unsigned char** binary, size_t* binary_sz);
+                                 unsigned char **binary, size_t *binary_sz);
 int treadstone_double_to_binary(double number,
-                                unsigned char** binary, size_t* binary_sz);
+                                unsigned char **binary, size_t *binary_sz);
 
-int treadstone_binary_is_string(const unsigned char* binary, size_t binary_sz);
-size_t treadstone_binary_string_bytes(const unsigned char* binary, size_t binary_sz);
-void treadstone_binary_to_string(const unsigned char* binary, size_t binary_sz,
-                                 char* string);
+int treadstone_binary_is_string(const unsigned char *binary, size_t binary_sz);
+size_t treadstone_binary_string_bytes(const unsigned char *binary, size_t binary_sz);
+void treadstone_binary_to_string(const unsigned char *binary, size_t binary_sz,
+                                 char *string);
 /* second two assert the first */
 
-int treadstone_binary_is_integer(const unsigned char* binary, size_t binary_sz);
-int64_t treadstone_binary_to_integer(const unsigned char* binary, size_t binary_sz);
+int treadstone_binary_is_integer(const unsigned char *binary, size_t binary_sz);
+int64_t treadstone_binary_to_integer(const unsigned char *binary, size_t binary_sz);
 /* latter asserts the former */
 
-int treadstone_binary_is_double(const unsigned char* binary, size_t binary_sz);
-double treadstone_binary_to_double(const unsigned char* binary, size_t binary_sz);
+int treadstone_binary_is_double(const unsigned char *binary, size_t binary_sz);
+double treadstone_binary_to_double(const unsigned char *binary, size_t binary_sz);
 /* latter asserts the former */
 
-int treadstone_validate_path(const char* path);
+int treadstone_validate_path(const char *path);
 
 struct treadstone_transformer;
 
-struct treadstone_transformer* treadstone_transformer_create(const unsigned char* binary, size_t binary_sz);
-void treadstone_transformer_destroy(struct treadstone_transformer*);
+struct treadstone_transformer *treadstone_transformer_create(const unsigned char *binary, size_t binary_sz);
+void treadstone_transformer_destroy(struct treadstone_transformer *);
 
-int treadstone_transformer_output(struct treadstone_transformer*,
-                                  unsigned char** binary, size_t* binary_sz);
+int treadstone_transformer_output(struct treadstone_transformer *,
+                                  unsigned char **binary, size_t *binary_sz);
 
-int treadstone_transformer_unset_value(struct treadstone_transformer*,
-                                       const char* path);
-int treadstone_transformer_set_value(struct treadstone_transformer*,
-                                     const char* path,
-                                     const unsigned char* value, size_t value_sz);
-int treadstone_transformer_extract_value(struct treadstone_transformer*,
-                                         const char* path,
-                                         unsigned char** value, size_t* value_sz);
-int treadstone_transformer_array_prepend_value(struct treadstone_transformer*,
-                                               const char* path,
-                                               const unsigned char* value, size_t value_sz);
-int treadstone_transformer_array_append_value(struct treadstone_transformer*,
-                                              const char* path,
-                                              const unsigned char* value, size_t value_sz);
+int treadstone_transformer_unset_value(struct treadstone_transformer *,
+                                       const char *path);
+int treadstone_transformer_set_value(struct treadstone_transformer *,
+                                     const char *path,
+                                     const unsigned char *value, size_t value_sz);
+int treadstone_transformer_extract_value(struct treadstone_transformer *,
+                                         const char *path,
+                                         unsigned char **value, size_t *value_sz);
+int treadstone_transformer_array_prepend_value(struct treadstone_transformer *,
+                                               const char *path,
+                                               const unsigned char *value, size_t value_sz);
+int treadstone_transformer_array_append_value(struct treadstone_transformer *,
+                                              const char *path,
+                                              const unsigned char *value, size_t value_sz);
 
 #ifdef __cplusplus
 } /* extern "C" */

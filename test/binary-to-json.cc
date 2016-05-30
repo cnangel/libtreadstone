@@ -32,11 +32,10 @@
 
 TEST(BinaryToJson, NullPointer)
 {
-    char unsigned *binary = NULL;
-    size_t binary_sz = 0;
-    char *json = NULL;
-
-    int res = treadstone_binary_to_json(binary, binary_sz, &json);
-    ASSERT_TRUE(strcmp(json, "{}") == 0);
-    ASSERT_EQ(res, 0);
+	char unsigned *binary = NULL;
+	size_t binary_sz = 0;
+	char *json = NULL;
+	int res = treadstone_binary_to_json(binary, binary_sz, &json);
+	ASSERT_TRUE(strcmp(json, "{}") == 0);
+	ASSERT_EQ(res, 0);
 }

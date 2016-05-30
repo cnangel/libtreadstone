@@ -31,42 +31,42 @@
 
 TEST(ValidatePath, SimpleFields)
 {
-    ASSERT_EQ(treadstone_validate_path(""), 0);
-    ASSERT_EQ(treadstone_validate_path("foo"), 0);
-    ASSERT_EQ(treadstone_validate_path("foo.bar"), 0);
-    ASSERT_EQ(treadstone_validate_path("foo.bar.baz"), 0);
-    ASSERT_EQ(treadstone_validate_path("foo.bar.baz.quux"), 0);
+	ASSERT_EQ(treadstone_validate_path(""), 0);
+	ASSERT_EQ(treadstone_validate_path("foo"), 0);
+	ASSERT_EQ(treadstone_validate_path("foo.bar"), 0);
+	ASSERT_EQ(treadstone_validate_path("foo.bar.baz"), 0);
+	ASSERT_EQ(treadstone_validate_path("foo.bar.baz.quux"), 0);
 }
 
 TEST(ValidatePath, SimpleIndices)
 {
-    ASSERT_EQ(treadstone_validate_path(""), 0);
-    ASSERT_EQ(treadstone_validate_path("[5]"), 0);
-    ASSERT_EQ(treadstone_validate_path("foo[5]"), 0);
-    ASSERT_EQ(treadstone_validate_path("foo.bar[5]"), 0);
-    ASSERT_EQ(treadstone_validate_path("foo.bar.baz[5]"), 0);
-    ASSERT_EQ(treadstone_validate_path("foo.bar.baz.quux[5]"), 0);
-    ASSERT_EQ(treadstone_validate_path("[5].foo"), 0);
-    ASSERT_EQ(treadstone_validate_path("foo[5].bar"), 0);
-    ASSERT_EQ(treadstone_validate_path("foo.bar[5].baz"), 0);
-    ASSERT_EQ(treadstone_validate_path("foo.bar.baz[5].quux"), 0);
+	ASSERT_EQ(treadstone_validate_path(""), 0);
+	ASSERT_EQ(treadstone_validate_path("[5]"), 0);
+	ASSERT_EQ(treadstone_validate_path("foo[5]"), 0);
+	ASSERT_EQ(treadstone_validate_path("foo.bar[5]"), 0);
+	ASSERT_EQ(treadstone_validate_path("foo.bar.baz[5]"), 0);
+	ASSERT_EQ(treadstone_validate_path("foo.bar.baz.quux[5]"), 0);
+	ASSERT_EQ(treadstone_validate_path("[5].foo"), 0);
+	ASSERT_EQ(treadstone_validate_path("foo[5].bar"), 0);
+	ASSERT_EQ(treadstone_validate_path("foo.bar[5].baz"), 0);
+	ASSERT_EQ(treadstone_validate_path("foo.bar.baz[5].quux"), 0);
 }
 
 TEST(ValidatePath, MultiDigitIndices)
 {
-    ASSERT_EQ(treadstone_validate_path("[12345]"), 0);
+	ASSERT_EQ(treadstone_validate_path("[12345]"), 0);
 }
 
 TEST(ValidatePath, MultiDimArray)
 {
-    ASSERT_EQ(treadstone_validate_path("foo[3][14]"), 0);
+	ASSERT_EQ(treadstone_validate_path("foo[3][14]"), 0);
 }
 
 TEST(ValidatePath, BadPaths)
 {
-    ASSERT_NE(treadstone_validate_path("foo..bar"), 0);
-    ASSERT_NE(treadstone_validate_path("foo.[3]"), 0);
-    ASSERT_NE(treadstone_validate_path("foo.[3]bar"), 0);
-    ASSERT_NE(treadstone_validate_path("foo.[3].bar"), 0);
-    ASSERT_NE(treadstone_validate_path("foo[3]bar"), 0);
+	ASSERT_NE(treadstone_validate_path("foo..bar"), 0);
+	ASSERT_NE(treadstone_validate_path("foo.[3]"), 0);
+	ASSERT_NE(treadstone_validate_path("foo.[3]bar"), 0);
+	ASSERT_NE(treadstone_validate_path("foo.[3].bar"), 0);
+	ASSERT_NE(treadstone_validate_path("foo[3]bar"), 0);
 }

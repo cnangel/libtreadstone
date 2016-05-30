@@ -31,9 +31,8 @@
 
 TEST(ValidateBinary, NullPointer)
 {
-    char unsigned *binary = NULL;
-    size_t binary_sz = 0;
-
-    int res = treadstone_binary_validate(binary, binary_sz);
-    ASSERT_NE(res, 0);
+	char unsigned *binary = NULL;
+	size_t binary_sz = 0;
+	int res = treadstone_binary_validate(binary, binary_sz);
+	ASSERT_NE(res, 0);
 }

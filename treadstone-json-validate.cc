@@ -44,118 +44,97 @@
 #include <treadstone.h>
 
 int
-main(int argc, const char* argv[])
+main(int argc, const char *argv[])
 {
-    while (true)
-    {
-        char* line = NULL;
-        size_t line_sz = 0;
-        ssize_t amt = getline(&line, &line_sz, stdin);
-
-        if (amt < 0)
-        {
-            if (feof(stdin) != 0)
-            {
-                break;
-            }
-
-            fprintf(stderr, "could not read from stdin: %s\n", strerror(ferror(stdin)));
-            return EXIT_FAILURE;
-        }
-
-        if (!line)
-        {
-            continue;
-        }
-
-        e::guard line_guard = e::makeguard(free, line);
-        (void) line_guard;
-
-        if (amt < 1)
-        {
-            continue;
-        }
-
-        line[amt - 1] = '\0';
-        unsigned char* binary1 = NULL;
-        size_t binary1_sz = 0;
-
-        if (treadstone_json_to_binary(line, &binary1, &binary1_sz) < 0)
-        {
-            printf("failure on binary1 conversion\n");
-            continue;
-        }
-
-        assert(binary1);
-        e::guard binary1_guard = e::makeguard(free, binary1);
-        char* json1 = NULL;
-
-        if (treadstone_binary_to_json(binary1, binary1_sz, &json1) < 0)
-        {
-            printf("failure on json1 conversion\n");
-            continue;
-        }
-
-        assert(json1);
-        e::guard json1_guard = e::makeguard(free, json1);
-        unsigned char* binary2 = NULL;
-        size_t binary2_sz = 0;
-
-        if (treadstone_json_to_binary(json1, &binary2, &binary2_sz) < 0)
-        {
-            printf("failure on binary2 conversion\n");
-            continue;
-        }
-
-        assert(binary2);
-        e::guard binary2_guard = e::makeguard(free, binary2);
-        char* json2 = NULL;
-
-        if (treadstone_binary_to_json(binary2, binary2_sz, &json2) < 0)
-        {
-            printf("failure on json2 conversion\n");
-            continue;
-        }
-
-        assert(json2);
-        e::guard json2_guard = e::makeguard(free, json2);
-        unsigned char* binary3 = NULL;
-        size_t binary3_sz = 0;
-
-        if (treadstone_json_to_binary(json1, &binary3, &binary3_sz) < 0)
-        {
-            printf("failure on binary3 conversion\n");
-            continue;
-        }
-
-        assert(binary3);
-        e::guard binary3_guard = e::makeguard(free, binary3);
-        char* json3 = NULL;
-
-        if (treadstone_binary_to_json(binary3, binary3_sz, &json3) < 0)
-        {
-            printf("failure on json3 conversion\n");
-            continue;
-        }
-
-        assert(json3);
-        e::guard json3_guard = e::makeguard(free, json3);
-
-        bool json_same = strcmp(json1, json2) == 0 &&
-                         strcmp(json2, json3) == 0;
-        bool binary_same = binary2_sz == binary3_sz &&
-                           memcmp(binary2, binary3, binary2_sz) == 0;
-
-        if (!json_same || !binary_same)
-        {
-            printf("json_same=%s binary_same=%s\n\t%s\n",
-                   (json_same ? "yes" : "no"),
-                   (binary_same ? "yes" : "no"),
-                   line);
-        }
-    }
-
-    (void) argc;
-    (void) argv;
-    return EXIT_SUCCESS;
+	while (true)
+	{
+		char *line = NULL;
+		size_t line_sz = 0;
+		ssize_t amt = getline(&line, &line_sz, stdin);
+		if (amt < 0)
+		{
+			if (feof(stdin) != 0)
+			{
+				break;
+			}
+			fprintf(stderr, "could not read from stdin: %s\n", strerror(ferror(stdin)));
+			return EXIT_FAILURE;
+		}
+		if (!line)
+		{
+			continue;
+		}
+		e::guard line_guard = e::makeguard(free, line);
+		(void) line_guard;
+		if (amt < 1)
+		{
+			continue;
+		}
+		line[amt - 1] = '\0';
+		unsigned char *binary1 = NULL;
+		size_t binary1_sz = 0;
+		if (treadstone_json_to_binary(line, &binary1, &binary1_sz) < 0)
+		{
+			printf("failure on binary1 conversion\n");
+			continue;
+		}
+		assert(binary1);
+		e::guard binary1_guard = e::makeguard(free, binary1);
+		char *json1 = NULL;
+		if (treadstone_binary_to_json(binary1, binary1_sz, &json1) < 0)
+		{
+			printf("failure on json1 conversion\n");
+			continue;
+		}
+		assert(json1);
+		e::guard json1_guard = e::makeguard(free, json1);
+		unsigned char *binary2 = NULL;
+		size_t binary2_sz = 0;
+		if (treadstone_json_to_binary(json1, &binary2, &binary2_sz) < 0)
+		{
+			printf("failure on binary2 conversion\n");
+			continue;
+		}
+		assert(binary2);
+		e::guard binary2_guard = e::makeguard(free, binary2);
+		char *json2 = NULL;
+		if (treadstone_binary_to_json(binary2, binary2_sz, &json2) < 0)
+		{
+			printf("failure on json2 conversion\n");
+			continue;
+		}
+		assert(json2);
+		e::guard json2_guard = e::makeguard(free, json2);
+		unsigned char *binary3 = NULL;
+		size_t binary3_sz = 0;
+		if (treadstone_json_to_binary(json1, &binary3, &binary3_sz) < 0)
+		{
+			printf("failure on binary3 conversion\n");
+			continue;
+		}
+		assert(binary3);
+		e::guard binary3_guard = e::makeguard(free, binary3);
+		char *json3 = NULL;
+		if (treadstone_binary_to_json(binary3, binary3_sz, &json3) < 0)
+		{
+			printf("failure on json3 conversion\n");
+			continue;
+		}
+		assert(json3);
+		e::guard json3_guard = e::makeguard(free, json3);
+		bool json_same = strcmp(json1, json2) == 0 &&
+		                 strcmp(json2, json3) == 0;
+		bool binary_same = binary2_sz == binary3_sz &&
+		                   memcmp(binary2, binary3, binary2_sz) == 0;
+		if (!json_same || !binary_same)
+		{
+			printf("json_same=%s binary_same=%s\n\t%s\n",
+			       (json_same ? "yes" : "no"),
+			       (binary_same ? "yes" : "no"),
+			       line);
+		}
+	}
+	(void) argc;
+	(void) argv;
+	return EXIT_SUCCESS;
 }

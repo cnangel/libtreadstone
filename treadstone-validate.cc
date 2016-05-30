@@ -55,245 +55,218 @@ BEGIN_TREADSTONE_NAMESPACE
 
 //! Same as bson2json but without writing the json string
 bool
-validate_transform(const unsigned char** ptr, const unsigned char* limit);
+validate_transform(const unsigned char **ptr, const unsigned char *limit);
 bool
-validate_value(const unsigned char** ptr, const unsigned char* limit);
+validate_value(const unsigned char **ptr, const unsigned char *limit);
 bool
-validate_object(const unsigned char** ptr, const unsigned char* limit);
+validate_object(const unsigned char **ptr, const unsigned char *limit);
 bool
-validate_array(const unsigned char** ptr, const unsigned char* limit);
+validate_array(const unsigned char **ptr, const unsigned char *limit);
 bool
-validate_string(const unsigned char** ptr, const unsigned char* limit);
+validate_string(const unsigned char **ptr, const unsigned char *limit);
 bool
-validate_double(const unsigned char** ptr, const unsigned char* limit);
+validate_double(const unsigned char **ptr, const unsigned char *limit);
 bool
-validate_integer(const unsigned char** ptr, const unsigned char* limit);
+validate_integer(const unsigned char **ptr, const unsigned char *limit);
 bool
-validate_true(const unsigned char** ptr, const unsigned char* limit);
+validate_true(const unsigned char **ptr, const unsigned char *limit);
 bool
-validate_false(const unsigned char** ptr, const unsigned char* limit);
+validate_false(const unsigned char **ptr, const unsigned char *limit);
 bool
-validate_null(const unsigned char** ptr, const unsigned char* limit);
+validate_null(const unsigned char **ptr, const unsigned char *limit);
 
 bool
-binary_validate(const unsigned char** ptr, const unsigned char* limit)
+binary_validate(const unsigned char **ptr, const unsigned char *limit)
 {
-    return validate_value(ptr, limit) &&
-           *ptr == limit;
+	return validate_value(ptr, limit) &&
+	       *ptr == limit;
 }
 
 bool
-validate_value(const unsigned char** ptr, const unsigned char* limit)
+validate_value(const unsigned char **ptr, const unsigned char *limit)
 {
-    if (*ptr >= limit)
-    {
-        return false;
-    }
-
-    switch (**ptr)
-    {
-        case BINARY_OBJECT:
-            return validate_object(ptr, limit);
-        case BINARY_ARRAY:
-            return validate_array(ptr, limit);
-        case BINARY_STRING:
-            return validate_string(ptr, limit);
-        case BINARY_DOUBLE:
-            return validate_double(ptr, limit);
-        case BINARY_INTEGER:
-            return validate_integer(ptr, limit);
-        case BINARY_TRUE:
-            return validate_true(ptr, limit);
-        case BINARY_FALSE:
-            return validate_false(ptr, limit);
-        case BINARY_NULL:
-            return validate_null(ptr, limit);
-        default:
-            return false;
-    }
+	if (*ptr >= limit)
+	{
+		return false;
+	}
+	switch (**ptr)
+	{
+	case BINARY_OBJECT:
+		return validate_object(ptr, limit);
+	case BINARY_ARRAY:
+		return validate_array(ptr, limit);
+	case BINARY_STRING:
+		return validate_string(ptr, limit);
+	case BINARY_DOUBLE:
+		return validate_double(ptr, limit);
+	case BINARY_INTEGER:
+		return validate_integer(ptr, limit);
+	case BINARY_TRUE:
+		return validate_true(ptr, limit);
+	case BINARY_FALSE:
+		return validate_false(ptr, limit);
+	case BINARY_NULL:
+		return validate_null(ptr, limit);
+	default:
+		return false;
+	}
 }
 
 bool
-validate_object(const unsigned char** ptr, const unsigned char* limit)
+validate_object(const unsigned char **ptr, const unsigned char *limit)
 {
-    if (*ptr >= limit || **ptr != BINARY_OBJECT)
-    {
-        return false;
-    }
-
-    uint64_t sz;
-    const unsigned char* end = e::varint64_decode(*ptr + 1, limit, &sz);
-
-    if (end == NULL || end + sz > limit)
-    {
-        return false;
-    }
-
-    *ptr = end;
-    end += sz;
-
-
-    while (*ptr < end)
-    {
-        if (!validate_string(ptr, end))
-        {
-            return false;
-        }
-
-        if (!validate_value(ptr, end))
-        {
-            return false;
-        }
-    }
-
-    return *ptr == end;
+	if (*ptr >= limit || **ptr != BINARY_OBJECT)
+	{
+		return false;
+	}
+	uint64_t sz;
+	const unsigned char *end = e::varint64_decode(*ptr + 1, limit, &sz);
+	if (end == NULL || end + sz > limit)
+	{
+		return false;
+	}
+	*ptr = end;
+	end += sz;
+	while (*ptr < end)
+	{
+		if (!validate_string(ptr, end))
+		{
+			return false;
+		}
+		if (!validate_value(ptr, end))
+		{
+			return false;
+		}
+	}
+	return *ptr == end;
 }
 
 bool
-validate_array(const unsigned char** ptr, const unsigned char* limit)
+validate_array(const unsigned char **ptr, const unsigned char *limit)
 {
-    if (*ptr >= limit || **ptr != BINARY_ARRAY)
-    {
-        return false;
-    }
-
-    uint64_t sz;
-    const unsigned char* end = e::varint64_decode(*ptr + 1, limit, &sz);
-
-    if (end == NULL || end + sz > limit)
-    {
-        return false;
-    }
-
-    *ptr = end;
-
-    while (*ptr < end + sz)
-    {
-        if (!validate_value(ptr, end + sz))
-        {
-            return false;
-        }
-    }
-
-    return *ptr == end + sz;
+	if (*ptr >= limit || **ptr != BINARY_ARRAY)
+	{
+		return false;
+	}
+	uint64_t sz;
+	const unsigned char *end = e::varint64_decode(*ptr + 1, limit, &sz);
+	if (end == NULL || end + sz > limit)
+	{
+		return false;
+	}
+	*ptr = end;
+	while (*ptr < end + sz)
+	{
+		if (!validate_value(ptr, end + sz))
+		{
+			return false;
+		}
+	}
+	return *ptr == end + sz;
 }
 
 bool
-validate_string(const unsigned char** ptr, const unsigned char* limit)
+validate_string(const unsigned char **ptr, const unsigned char *limit)
 {
-    if (*ptr >= limit || **ptr != BINARY_STRING)
-    {
-        return false;
-    }
-
-    uint64_t sz;
-    const unsigned char* end = e::varint64_decode(*ptr + 1, limit, &sz);
-
-
-    if(end == NULL || end + sz > limit)
-    {
-        return false;
-    }
-
-    *ptr = end + sz;
-    return true;
+	if (*ptr >= limit || **ptr != BINARY_STRING)
+	{
+		return false;
+	}
+	uint64_t sz;
+	const unsigned char *end = e::varint64_decode(*ptr + 1, limit, &sz);
+	if (end == NULL || end + sz > limit)
+	{
+		return false;
+	}
+	*ptr = end + sz;
+	return true;
 }
 
 bool
-validate_double(const unsigned char** ptr, const unsigned char* limit)
+validate_double(const unsigned char **ptr, const unsigned char *limit)
 {
-    if (*ptr + sizeof(double) >= limit || **ptr != BINARY_DOUBLE)
-    {
-        return false;
-    }
-
-    double num;
-    e::unpackdoublebe(*ptr + 1, &num);
-    char buf[40];
-    int sz = snprintf(buf, 40, "%g", num);
-
-    if (sz >= 40 || sz <= 0)
-    {
-        return false;
-    }
-
-    *ptr += sizeof(unsigned char) + sizeof(double);
-    return true;
+	if (*ptr + sizeof(double) >= limit || **ptr != BINARY_DOUBLE)
+	{
+		return false;
+	}
+	double num;
+	e::unpackdoublebe(*ptr + 1, &num);
+	char buf[40];
+	int sz = snprintf(buf, 40, "%g", num);
+	if (sz >= 40 || sz <= 0)
+	{
+		return false;
+	}
+	*ptr += sizeof(unsigned char) + sizeof(double);
+	return true;
 }
 
 bool
-validate_integer(const unsigned char** ptr, const unsigned char* limit)
+validate_integer(const unsigned char **ptr, const unsigned char *limit)
 {
-    if (*ptr >= limit || **ptr != BINARY_INTEGER)
-    {
-        return false;
-    }
-
-    uint64_t unum;
-    const unsigned char* end = e::varint64_decode(*ptr + 1, limit, &unum);
-
-    if (end == NULL)
-    {
-        return false;
-    }
-
-    int64_t num = unum;
-    char buf[40];
-    int sz = snprintf(buf, 40, "%lld", (long long)num);
-
-    if (sz >= 40 || sz <= 0)
-    {
-        return false;
-    }
-
-    *ptr = end;
-    return true;
+	if (*ptr >= limit || **ptr != BINARY_INTEGER)
+	{
+		return false;
+	}
+	uint64_t unum;
+	const unsigned char *end = e::varint64_decode(*ptr + 1, limit, &unum);
+	if (end == NULL)
+	{
+		return false;
+	}
+	int64_t num = unum;
+	char buf[40];
+	int sz = snprintf(buf, 40, "%lld", (long long)num);
+	if (sz >= 40 || sz <= 0)
+	{
+		return false;
+	}
+	*ptr = end;
+	return true;
 }
 
 bool
-validate_constant(const unsigned char** ptr, const unsigned char* limit, unsigned char c)
+validate_constant(const unsigned char **ptr, const unsigned char *limit, unsigned char c)
 {
-    if (*ptr >= limit || **ptr != c)
-    {
-        return false;
-    }
-
-    return true;
+	if (*ptr >= limit || **ptr != c)
+	{
+		return false;
+	}
+	return true;
 }
 
 bool
-validate_true(const unsigned char** ptr, const unsigned char* limit)
+validate_true(const unsigned char **ptr, const unsigned char *limit)
 {
-    return validate_constant(ptr, limit, BINARY_TRUE);
+	return validate_constant(ptr, limit, BINARY_TRUE);
 }
 
 bool
-validate_false(const unsigned char** ptr, const unsigned char* limit)
+validate_false(const unsigned char **ptr, const unsigned char *limit)
 {
-    return validate_constant(ptr, limit, BINARY_FALSE);
+	return validate_constant(ptr, limit, BINARY_FALSE);
 }
 
 bool
-validate_null(const unsigned char** ptr, const unsigned char* limit)
+validate_null(const unsigned char **ptr, const unsigned char *limit)
 {
-    return validate_constant(ptr, limit, BINARY_NULL);
+	return validate_constant(ptr, limit, BINARY_NULL);
 }
 
 END_TREADSTONE_NAMESPACE
 
 TREADSTONE_API int
-treadstone_binary_validate(const unsigned char* binary, size_t binary_sz)
+treadstone_binary_validate(const unsigned char *binary, size_t binary_sz)
 {
-    const unsigned char* ptr = binary;
-    const unsigned char* limit = binary + binary_sz;
-    bool ret = treadstone::binary_validate(&ptr, limit);
-
-    if (ret)
-    {
-        return 0;
-    }
-    else
-    {
-        return -1;
-    }
+	const unsigned char *ptr = binary;
+	const unsigned char *limit = binary + binary_sz;
+	bool ret = treadstone::binary_validate(&ptr, limit);
+	if (ret)
+	{
+		return 0;
+	}
+	else
+	{
+		return -1;
+	}
 }

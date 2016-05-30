@@ -29,7 +29,7 @@
 #define treadstone_namespace_h_
 
 #define BEGIN_TREADSTONE_NAMESPACE \
-    namespace treadstone __attribute__ ((visibility ("hidden"))) {
+	namespace treadstone __attribute__ ((visibility ("hidden"))) {
 
 #define END_TREADSTONE_NAMESPACE }
 
